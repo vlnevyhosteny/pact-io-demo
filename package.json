@@ -28,6 +28,8 @@
     "start:consumer": "ts-node ./consumer/consumer.ts",
     "test:consumer": "rimraf pact && jest --detectOpenHandles ./consumer",
     "publish:pact": "npx pact-broker publish ./pact/pacts --consumer-app-version=1.0.0 --branch=main --broker-base-url http://localhost:9292",
-    "test:producer": "rimraf pact && jest --detectOpenHandles ./producer"
+    "test:producer": "rimraf pact && jest --detectOpenHandles ./producer",
+    "can-i-deploy:consumer": "npx pact-broker can-i-deploy --pacticipant=CatConsumer --branch=main --broker-base-url http://localhost:9292",
+    "can-i-deploy:provider": "npx pact-broker can-i-deploy --pacticipant=CatProvider --branch=main --broker-base-url http://localhost:9292"
   }
 }
