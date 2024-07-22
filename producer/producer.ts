@@ -1,7 +1,6 @@
 import express, { Express, Request, Response } from "express";
 
-const app: Express = express();
-const port = process.env.PORT || 3000;
+export const VERSION = "1.0.0";
 
 interface Cat {
   name: string;
@@ -9,7 +8,7 @@ interface Cat {
   breed: string;
 }
 
-const cats: Cat[] = [
+export const cats: Cat[] = [
   {
     name: "Frank",
     age: 2,
@@ -22,11 +21,9 @@ const cats: Cat[] = [
   },
 ];
 
+export const app = express();
+
 app.get("/cats", (req: Request, res: Response) => {
   res.json(cats);
   res.status(200);
-});
-
-app.listen(port, () => {
-  console.log(`[producer]: Server is running at http://localhost:${port}`);
 });
