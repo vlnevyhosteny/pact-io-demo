@@ -7,15 +7,17 @@
   "author": "Vladimir Nevyhosteny <vladimir.nevyhosteny@etnetera.cz>",
   "license": "MIT",
   "dependencies": {
+    "axios": "^1.7.2",
     "express": "^4.19.2"
   },
   "devDependencies": {
     "@types/express": "^4.17.21",
     "@types/node": "^20.14.11",
-    "typescript": "^5.5.3",
-    "ts-node": "^10.9.2"
+    "ts-node": "^10.9.2",
+    "typescript": "^5.5.3"
   },
   "scripts": {
-    "start:producer": "ts-node ./producer.ts"
+    "start:producer": "ts-node ./producer/producer.ts",
+    "start:consumer": "ts-node ./consumer/consumer.ts"
   }
 }
