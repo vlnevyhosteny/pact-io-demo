@@ -1,16 +1,15 @@
-import axios from "axios";
+import axios, { AxiosInstance } from "axios";
+import { getClient } from "./client";
 
-interface Cat {
+export interface ConsumerCat {
   name: string;
   breed: string;
 }
 
-async function getCats(catsUrl: string = 'http://localhost:3000/cats'): Promise<Cat[]> {
-  const response = await axios.get<Cat[]>(catsUrl);
+const CATS_BASE_URL = "http://localhost:3000";
+
+export async function getCats(client: AxiosInstance = getClient({ baseUrl: CATS_BASE_URL })): Promise<ConsumerCat[]> {
+  const response = await client.get<ConsumerCat[]>('/cats');
 
   return response.data;
 }
-
-getCats().then((cats) => {
-  console.log(cats);
-}); 
