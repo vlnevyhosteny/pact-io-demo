@@ -13,3 +13,18 @@ export async function getCats(client: AxiosInstance = getClient({ baseUrl: CATS_
 
   return response.data;
 }
+
+export function processCatEvent(message: Record<string, any> | null): ConsumerCat {
+  if (!message) {
+    throw new Error('null message');
+  }
+
+  if (!message.name || !message.breed) {
+    throw new Error('Invalid message');
+  }
+
+  return {
+    name: message.name,
+    breed: message.breed,
+  };
+}

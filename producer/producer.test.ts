@@ -1,6 +1,6 @@
-import { Verifier } from "@pact-foundation/pact";
+import { MessageProviderPact, providerWithMetadata, Verifier } from "@pact-foundation/pact";
 import { stateHandlers } from "./state-handlers";
-import { app as server, VERSION } from "./producer";
+import { createCatEvent, app as server, VERSION } from "./producer";
 import { Server } from "http";
 
 function getVerifier(): Verifier {
@@ -28,6 +28,34 @@ function getVerifier(): Verifier {
   });
 }
 
+function getMessageVerifier(): MessageProviderPact{
+  return new MessageProviderPact({
+    provider: 'CatMessageProvider',
+    providerVersion: VERSION,
+    providerBranch: 'main',
+    publishVerificationResult: true,
+    consumerVersionSelectors: [
+      {
+        matchingBranch: true,
+      },
+      {
+        mainBranch: true,
+      },
+      {
+        deployedOrReleased: true,
+      },
+    ],
+
+    messageProviders: {
+      'a cat event': providerWithMetadata(() => createCatEvent(), {
+        'content-type': 'application/json',
+      }),
+    },
+
+    pactBrokerUrl: 'http://localhost:9292',
+  });
+}
+
 describe('Pact Verification', () => {
   let app: Server;
   const PROVIDER_PORT = 3000;
@@ -44,5 +72,13 @@ describe('Pact Verification', () => {
 
   it('validates pacts', async () => {
     await expect(getVerifier().verifyProvider()).resolves.not.toThrow();
+  });
+});
+
+describe('Message Pact Verification', () => {
+  describe('publishCatEvent', () => {
+    it('validates message pacts', async () => {
+      await expect(getMessageVerifier().verify()).resolves.not.toThrow();
+    });
   });
 });

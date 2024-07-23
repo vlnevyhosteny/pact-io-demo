@@ -27,3 +27,7 @@ app.get("/cats", (req: Request, res: Response) => {
   res.json(cats);
   res.status(200);
 });
+
+export function createCatEvent(): Cat {
+  return cats[0];
+}
